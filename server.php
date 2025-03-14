@@ -48,8 +48,8 @@ if ($row22 >= 1) {
         // INSERT ELECTRICITY CONSUMPTION PER DAY
         mysqli_query($connection, "INSERT INTO electricity_meter(dailyElectricityConsumption, dailyElectricityGenerated, updatedAt) VALUES('$energyConsumed', '$electGen', NOW())") or die(mysqli_error($connection));
     } else {
-        echo "FULLY CONSUMED!";
+        echo "FULLY CONSUMED!  ";
     }
 } else {
-    echo "NOT REGISTERED!";
+    echo "NOT REGISTERED!  ";
 }
