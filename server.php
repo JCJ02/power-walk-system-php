@@ -39,7 +39,7 @@ if ($row22 >= 1) {
         mysqli_query($connection, "INSERT INTO history(rfid_uid, createdAt, updatedAt) VALUES('$uid', '$date', NOW())") or die(mysqli_error($connection));
 
         // CALCULATE ENERGY CONSUMED FOR THIS RFID SCAN (12V * CURRENT * 0.25H)
-        $energyConsumed = 12 * 0.735 * 0.25; // Wh
+        $energyConsumed = 12 * 0.638 * 0.25; // Wh
         $newEnergyConsumed = $currentEnergyConsumed + $energyConsumed;
 
         // UPDATE ELECTRICITY DATA
@@ -48,8 +48,8 @@ if ($row22 >= 1) {
         // INSERT ELECTRICITY CONSUMPTION PER DAY
         mysqli_query($connection, "INSERT INTO electricity_meter(dailyElectricityConsumption, dailyElectricityGenerated, updatedAt) VALUES('$energyConsumed', '$electGen', NOW())") or die(mysqli_error($connection));
     } else {
-        echo "FULLY CONSUMED!";
+        echo "FULLY CONSUMED!  ";
     }
 } else {
-    echo "NOT REGISTERED!";
+    echo "NOT REGISTERED!  ";
 }
