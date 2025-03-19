@@ -11,7 +11,7 @@ $query21a1ss5 = mysqli_query($connection, "SELECT totalHours, electricityConsump
 $count_cust2ss5 = mysqli_fetch_assoc($query21a1ss5);
 
 if ($count_cust2ss5) {
-    $totalHours = isset($count_cust2ss5['totalHours']) ? floatval($count_cust2ss5['totalHours']) : 0;
+    //$totalHours = isset($count_cust2ss5['totalHours']) ? floatval($count_cust2ss5['totalHours']) : 0;
     $currentEnergyConsumed = isset($count_cust2ss5['electricityConsumption']) ? floatval($count_cust2ss5['electricityConsumption']) : 0;
     $currentEnergyGenerated = isset($count_cust2ss5['electricityGenerated']) ? floatval($count_cust2ss5['electricityGenerated']) : 0;
 
@@ -39,7 +39,7 @@ if ($row22 >= 1) {
         mysqli_query($connection, "INSERT INTO history(rfid_uid, createdAt, updatedAt) VALUES('$uid', '$date', NOW())") or die(mysqli_error($connection));
 
         // CALCULATE ENERGY CONSUMED FOR THIS RFID SCAN (12V * CURRENT * 0.25H)
-        $energyConsumed = 12 * 0.735 * 0.25; // Wh
+        $energyConsumed = 12 * 0.638 * 0.25; // Wh
         $newEnergyConsumed = $currentEnergyConsumed + $energyConsumed;
 
         // UPDATE ELECTRICITY DATA
@@ -49,7 +49,13 @@ if ($row22 >= 1) {
         mysqli_query($connection, "INSERT INTO electricity_meter(dailyElectricityConsumption, dailyElectricityGenerated, updatedAt) VALUES('$energyConsumed', '$electGen', NOW())") or die(mysqli_error($connection));
     } else {
         echo "FULLY CONSUMED!  ";
+
+        // INSERT ELECTRICITY GENERATED PER DAY
+        mysqli_query($connection, "INSERT INTO electricity_meter(dailyElectricityConsumption, dailyElectricityGenerated, updatedAt) VALUES(0, '$electGen', NOW())") or die(mysqli_error($connection));
     }
 } else {
     echo "NOT REGISTERED!  ";
+
+    // INSERT ELECTRICITY GENERATED PER DAY
+    mysqli_query($connection, "INSERT INTO electricity_meter(dailyElectricityConsumption, dailyElectricityGenerated, updatedAt) VALUES(0, '$electGen', NOW())") or die(mysqli_error($connection));
 }
